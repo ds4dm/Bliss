@@ -43,3 +43,22 @@ set_target_properties(libbliss PROPERTIES
 add_executable(bliss src/bliss.cc)
 add_executable(Bliss::bliss ALIAS bliss)
 target_link_libraries(bliss PRIVATE libbliss)
+
+
+install(
+	TARGETS libbliss bliss
+	EXPORT Bliss
+)
+
+install(
+	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/bliss"
+	TYPE INCLUDE
+	COMPONENT lib
+)
+
+install(
+	EXPORT Bliss
+	FILE BlissConfig.cmake
+	NAMESPACE Bliss::
+	DESTINATION lib/cmake/Bliss
+)
