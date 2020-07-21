@@ -20,6 +20,9 @@
   along with bliss.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/** This is a patched version of bliss by Thomas Rehn extended by method AbstractGraph::set_search_limits() */
+#define BLISS_PATCH_PRESENT
+
 /**
  * \namespace bliss
  * The namespace bliss contains all the classes and functions of the bliss
@@ -110,6 +113,14 @@ public:
 };
 
 
+
+/** moved here from graph.cc by Thomas Rehn, 2011-07-12 */
+typedef struct {
+  unsigned int splitting_element;
+  unsigned int certificate_index;
+  unsigned int subcertificate_length;
+  UintSeqHash eqref_hash;
+} PathInfo;
 
 
 
@@ -284,7 +295,20 @@ public:
     opt_use_long_prune = active;
   }
 
+  /// information vector about first path
+  /** added by Thomas Rehn, 2011-07-12 */
+  std::vector<PathInfo> get_first_path_info() { return first_path_info; }
 
+  /// limits number of search nodes and generators during the backtrack search
+  /** added by Thomas Rehn, 2012-01-12
+   *
+   * \param searchNodeLimit if non-zero, limits the number of search nodes in search tree
+   * \param generatorLimit  if non-zero, limits the maximal number of automorphism group generators to be found
+   */
+  void set_search_limits(const unsigned int searchNodeLimit, const unsigned int generatorLimit) {
+     limit_search_nodes = searchNodeLimit;
+     limit_generators = generatorLimit;
+  }
 
 protected:
   /** \internal
@@ -519,6 +543,11 @@ protected:
 
 
 
+  /** added by Thomas Rehn, 2011-07-12 */
+  std::vector<PathInfo> first_path_info;
+
+  unsigned int limit_search_nodes;
+  unsigned int limit_generators;
 };
 
 

@@ -5,7 +5,7 @@ CFLAGS += -Wall
 CFLAGS += --pedantic
 CFLAGS += -O9
 #CFLAGS += -DBLISS_DEBUG
-CFLAGS += -fPIC
+CFLAGS += -fPIC -fvisibility=hidden -fvisibility-inlines-hidden
 
 SRCS = defs.cc graph.cc partition.cc orbit.cc uintseqhash.cc heap.cc
 SRCS += timer.cc utils.cc bliss_C.cc

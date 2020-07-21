@@ -67,6 +67,9 @@ AbstractGraph::AbstractGraph()
 
   report_hook = 0;
   report_user_param = 0;
+
+  limit_search_nodes = 0;
+  limit_generators = 0;
 }
 
 
@@ -609,13 +612,7 @@ public:
 
 
 
-
-typedef struct {
-  unsigned int splitting_element;
-  unsigned int certificate_index;
-  unsigned int subcertificate_length;
-  UintSeqHash eqref_hash;
-} PathInfo;
+// struct PathInfo moved to graph.hh by Thomas Rehn, 2011-07-12
 
 
 void
@@ -745,7 +742,7 @@ AbstractGraph::search(const bool canonical, Stats& stats)
   initialize_certificate();
 
   std::vector<TreeNode> search_stack;
-  std::vector<PathInfo> first_path_info;
+  // first_path_info moved to graph.hh by Thomas Rehn, 2011-07-12
   std::vector<PathInfo> best_path_info;
 
   search_stack.clear();
@@ -1054,6 +1051,8 @@ AbstractGraph::search(const bool canonical, Stats& stats)
       const unsigned int child_level = current_level+1;
       /* Update some statistics */
       stats.nof_nodes++;
+      if (limit_search_nodes && stats.nof_nodes >= limit_search_nodes)
+         break;
       if(search_stack.size() > stats.max_level)
 	stats.max_level = search_stack.size();
 
@@ -1642,6 +1641,8 @@ AbstractGraph::search(const bool canonical, Stats& stats)
 			     best_path_automorphism);
 	    /* Update statistics */
 	    stats.nof_generators++;
+       if (limit_generators && stats.nof_generators >= limit_generators)
+          break;
 	  }
 	  
 	/*
@@ -1733,6 +1734,8 @@ AbstractGraph::search(const bool canonical, Stats& stats)
 
       /* Update statistics */
       stats.nof_generators++;
+      if (limit_generators && stats.nof_generators >= limit_generators)
+          break;
       continue;
 
     } /* while(!search_stack.empty()) */
@@ -5452,7 +5455,7 @@ Graph::nucr_find_first_component(const unsigned int level,
   component.clear();
   component_elements = 0;
   sh_return = 0;
-  unsigned int sh_first  = 0;
+  unsigned int sh_first  = 1 << 31;
   unsigned int sh_size   = 0;
   unsigned int sh_nuconn = 0;
 
