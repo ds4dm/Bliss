@@ -8,6 +8,21 @@ project(
 	HOMEPAGE_URL "http://www.tcs.hut.fi/Software/bliss/"
 )
 
+# Set the default build type to the given value if no build type was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+	message(STATUS "Setting build type to Release as none was specified")
+	set(
+		CMAKE_BUILD_TYPE Release
+		CACHE STRING "Choose the type of build" FORCE
+	)
+	# Set the possible values of build type for cmake-gui, ccmake
+	set_property(
+		CACHE CMAKE_BUILD_TYPE
+		PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo"
+	)
+endif()
+
+
 add_library(
 	libbliss
 	src/bliss_C.cc
