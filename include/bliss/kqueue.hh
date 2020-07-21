@@ -20,7 +20,7 @@
   along with bliss.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "defs.hh"
+#include "bliss/defs.hh"
 
 namespace bliss {
 

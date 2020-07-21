@@ -27,11 +27,11 @@ namespace bliss {
 #include <cstdlib>
 #include <cstdio>
 #include <climits>
-#include "kstack.hh"
-#include "kqueue.hh"
-#include "heap.hh"
-#include "orbit.hh"
-#include "graph.hh"
+#include "bliss/kstack.hh"
+#include "bliss/kqueue.hh"
+#include "bliss/heap.hh"
+#include "bliss/orbit.hh"
+#include "bliss/graph.hh"
 
 
 namespace bliss {

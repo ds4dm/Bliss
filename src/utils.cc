@@ -1,6 +1,6 @@
 #include <cassert>
 #include <vector>
-#include "utils.hh"
+#include "bliss/utils.hh"
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila

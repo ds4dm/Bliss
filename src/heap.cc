@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
-#include "defs.hh"
-#include "heap.hh"
+#include "bliss/defs.hh"
+#include "bliss/heap.hh"
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila

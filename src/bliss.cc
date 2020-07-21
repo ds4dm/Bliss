@@ -2,10 +2,10 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
-#include "defs.hh"
-#include "graph.hh"
-#include "timer.hh"
-#include "utils.hh"
+#include "bliss/defs.hh"
+#include "bliss/graph.hh"
+#include "bliss/timer.hh"
+#include "bliss/utils.hh"
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila

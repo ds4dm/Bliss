@@ -1,4 +1,4 @@
-#include "uintseqhash.hh"
+#include "bliss/uintseqhash.hh"
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila

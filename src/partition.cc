@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <vector>
 #include <list>
-#include "graph.hh"
-#include "partition.hh"
+#include "bliss/graph.hh"
+#include "bliss/partition.hh"
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila

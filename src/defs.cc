@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <cstdio>
-#include "defs.hh"
+#include "bliss/defs.hh"
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila

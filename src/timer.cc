@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <sys/times.h>
-#include "timer.hh"
+#include "bliss/timer.hh"
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila
