@@ -1,12 +1,21 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
 
-project(
-	Bliss
-	VERSION 0.73.0
-	LANGUAGES CXX C
-	DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs"
-	HOMEPAGE_URL "http://www.tcs.hut.fi/Software/bliss/"
-)
+if(${CMAKE_VERSION} VERSION_LESS "3.12")
+  project(
+    Bliss
+    VERSION 0.73.1
+    LANGUAGES CXX C
+    DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs. http://www.tcs.hut.fi/Software/bliss/."
+  )
+else()
+  project(
+    Bliss
+    VERSION 0.73.1
+    LANGUAGES CXX C
+    DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs"
+    HOMEPAGE_URL "http://www.tcs.hut.fi/Software/bliss/"
+  )
+endif()
 
 # Set the default build type to the given value if no build type was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -63,17 +72,27 @@ target_link_libraries(bliss PRIVATE libbliss)
 install(
 	TARGETS libbliss bliss
 	EXPORT Bliss
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
 )
 
-install(
-	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/bliss"
-	TYPE INCLUDE
-	COMPONENT lib
-)
+if(${CMAKE_VERSION} VERSION_LESS "3.14")
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/bliss"
+    DESTINATION include
+    COMPONENT lib
+  )
+else()
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/bliss"
+    TYPE INCLUDE
+    COMPONENT lib
+  )
+endif()
 
-install(
-	EXPORT Bliss
-	FILE BlissConfig.cmake
-	NAMESPACE Bliss::
+install(EXPORT Bliss
 	DESTINATION lib/cmake/Bliss
+  NAMESPACE Bliss::
+  FILE BlissConfig.cmake
 )
