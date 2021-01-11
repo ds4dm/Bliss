@@ -9,7 +9,7 @@
 #endif
 
 #include "bliss/defs.hh"
-#ifdef _WIN32
+#ifndef _WIN32
   #include "bliss/timer.hh"
 #endif
 #include "bliss/graph.hh"
@@ -679,13 +679,13 @@ AbstractGraph::search(const bool canonical, Stats& stats)
    * This saves some cycles. */
   compute_eqref_hash = false;
 
-#ifdef _WIN32
+#ifndef _WIN32
   Timer timer1;
 #endif
 
   make_initial_equitable_partition();
 
-#ifdef _WIN32
+#ifndef _WIN32
   if(verbstr and verbose_level >= 2)
     {
       fprintf(verbstr, "Initial partition computed in %.2f seconds\n",

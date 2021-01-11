@@ -8,7 +8,7 @@
 
 #include "bliss/defs.hh"
 #include "bliss/graph.hh"
-#ifdef _WIN32
+#ifndef _WIN32
   #include "bliss/timer.hh"
 #endif
 #include "bliss/utils.hh"
@@ -189,7 +189,7 @@ _fatal(const char* fmt, ...)
 int
 main(const int argc, const char** argv)
 {
-#ifdef _WIN32
+#ifndef _WIN32
   bliss::Timer timer;
 #endif
   bliss::AbstractGraph* g = 0;
@@ -261,7 +261,7 @@ main(const int argc, const char** argv)
   if(!g)
     _fatal("Failed to read the graph, aborting");
 
-#ifdef _WIN32
+#ifndef _WIN32
   if(verbose_level >= 2)
     {
       fprintf(verbstr, "Graph read in %.2f seconds\n", timer.get_duration());
@@ -313,7 +313,7 @@ main(const int argc, const char** argv)
   if(verbose_level > 0 and verbstr)
     stats.print(verbstr);
 
-#ifdef _WIN32
+#ifndef _WIN32
   if(verbose_level > 0)
     {
       fprintf(verbstr, "Total time:\t%.2f seconds\n", timer.get_duration());
