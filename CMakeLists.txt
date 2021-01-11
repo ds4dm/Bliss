@@ -3,14 +3,14 @@ cmake_minimum_required(VERSION 3.10)
 if(${CMAKE_VERSION} VERSION_LESS "3.12")
   project(
     Bliss
-    VERSION 0.73.1
+    VERSION 0.73.3
     LANGUAGES CXX C
     DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs. http://www.tcs.hut.fi/Software/bliss/."
   )
 else()
   project(
     Bliss
-    VERSION 0.73.1
+    VERSION 0.73.3
     LANGUAGES CXX C
     DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs"
     HOMEPAGE_URL "http://www.tcs.hut.fi/Software/bliss/"
