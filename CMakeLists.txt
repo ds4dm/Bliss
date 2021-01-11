@@ -32,18 +32,33 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 
-add_library(
-	libbliss
-	src/bliss_C.cc
-	src/defs.cc
-	src/graph.cc
-	src/heap.cc
-	src/orbit.cc
-	src/partition.cc
-	src/timer.cc
-	src/uintseqhash.cc
-	src/utils.cc
-)
+if(WIN32)
+  add_library(
+    libbliss
+    src/bliss_C.cc
+    src/defs.cc
+    src/graph.cc
+    src/heap.cc
+    src/orbit.cc
+    src/partition.cc
+    src/uintseqhash.cc
+    src/utils.cc
+  )
+else()
+  add_library(
+    libbliss
+    src/bliss_C.cc
+    src/defs.cc
+    src/graph.cc
+    src/heap.cc
+    src/orbit.cc
+    src/partition.cc
+    src/timer.cc
+    src/uintseqhash.cc
+    src/utils.cc
+  )
+endif()
+
 set_target_properties(libbliss PROPERTIES OUTPUT_NAME bliss)
 add_library(Bliss::libbliss ALIAS libbliss)
 
