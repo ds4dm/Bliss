@@ -3,14 +3,14 @@ cmake_minimum_required(VERSION 3.10)
 if(${CMAKE_VERSION} VERSION_LESS "3.12")
   project(
     Bliss
-    VERSION 0.73.1
+    VERSION 0.73.3
     LANGUAGES CXX C
     DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs. http://www.tcs.hut.fi/Software/bliss/."
   )
 else()
   project(
     Bliss
-    VERSION 0.73.1
+    VERSION 0.73.3
     LANGUAGES CXX C
     DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs"
     HOMEPAGE_URL "http://www.tcs.hut.fi/Software/bliss/"
@@ -32,18 +32,33 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 
-add_library(
-	libbliss
-	src/bliss_C.cc
-	src/defs.cc
-	src/graph.cc
-	src/heap.cc
-	src/orbit.cc
-	src/partition.cc
-	src/timer.cc
-	src/uintseqhash.cc
-	src/utils.cc
-)
+if(WIN32)
+  add_library(
+    libbliss
+    src/bliss_C.cc
+    src/defs.cc
+    src/graph.cc
+    src/heap.cc
+    src/orbit.cc
+    src/partition.cc
+    src/uintseqhash.cc
+    src/utils.cc
+  )
+else()
+  add_library(
+    libbliss
+    src/bliss_C.cc
+    src/defs.cc
+    src/graph.cc
+    src/heap.cc
+    src/orbit.cc
+    src/partition.cc
+    src/timer.cc
+    src/uintseqhash.cc
+    src/utils.cc
+  )
+endif()
+
 set_target_properties(libbliss PROPERTIES OUTPUT_NAME bliss)
 add_library(Bliss::libbliss ALIAS libbliss)
 

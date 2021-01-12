@@ -2,17 +2,23 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
+#ifdef _WIN32
+  #include <ciso646>
+#endif
+
 #include "bliss/defs.hh"
 #include "bliss/graph.hh"
-#include "bliss/timer.hh"
+#ifndef _WIN32
+  #include "bliss/timer.hh"
+#endif
 #include "bliss/utils.hh"
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila
   Released under the GNU Lesser General Public License version 3.
-  
+
   This file is part of bliss.
-  
+
   bliss is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
   the Free Software Foundation, version 3 of the License.
@@ -52,11 +58,11 @@ static void
 usage(FILE* const fp, const char* argv0)
 {
   const char* program_name;
-  
-  program_name = rindex(argv0, '/');
-  
+
+  program_name = strrchr(argv0, '/');
+
   if(program_name) program_name++;
-  else program_name = argv0;  
+  else program_name = argv0;
   if(!program_name or *program_name == 0) program_name = "bliss";
 
   fprintf(fp, "bliss version %s (compiled %s)\n", bliss::version, __DATE__);
@@ -183,11 +189,13 @@ _fatal(const char* fmt, ...)
 int
 main(const int argc, const char** argv)
 {
+#ifndef _WIN32
   bliss::Timer timer;
+#endif
   bliss::AbstractGraph* g = 0;
 
   parse_options(argc, argv);
-  
+
   /* Parse splitting heuristics */
   bliss::Digraph::SplittingHeuristic shs_directed = bliss::Digraph::shs_fsm;
   bliss::Graph::SplittingHeuristic shs_undirected = bliss::Graph::shs_fsm;
@@ -246,18 +254,20 @@ main(const int argc, const char** argv)
       /* Read undirected graph in the DIMACS format */
       g = bliss::Graph::read_dimacs(infile);
     }
-  
+
   if(infile != stdin)
     fclose(infile);
 
   if(!g)
     _fatal("Failed to read the graph, aborting");
-  
+
+#ifndef _WIN32
   if(verbose_level >= 2)
     {
       fprintf(verbstr, "Graph read in %.2f seconds\n", timer.get_duration());
       fflush(verbstr);
     }
+#endif
 
 
   bliss::Stats stats;
@@ -303,12 +313,13 @@ main(const int argc, const char** argv)
   if(verbose_level > 0 and verbstr)
     stats.print(verbstr);
 
+#ifndef _WIN32
   if(verbose_level > 0)
     {
       fprintf(verbstr, "Total time:\t%.2f seconds\n", timer.get_duration());
       fflush(verbstr);
     }
-
+#endif
 
   delete g; g = 0;
 
