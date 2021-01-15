@@ -19,64 +19,55 @@ endif()
 
 # Set the default build type to the given value if no build type was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-	message(STATUS "Setting build type to Release as none was specified")
-	set(
-		CMAKE_BUILD_TYPE Release
-		CACHE STRING "Choose the type of build" FORCE
-	)
-	# Set the possible values of build type for cmake-gui, ccmake
-	set_property(
-		CACHE CMAKE_BUILD_TYPE
-		PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo"
-	)
+  message(STATUS "Setting build type to Release as none was specified")
+  set(
+    CMAKE_BUILD_TYPE Release
+    CACHE STRING "Choose the type of build" FORCE
+  )
+  # Set the possible values of build type for cmake-gui, ccmake
+  set_property(
+    CACHE CMAKE_BUILD_TYPE
+    PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo"
+  )
 endif()
 
 
+set(
+  BLISS_SOURCE_FILES
+  src/bliss_C.cc
+  src/defs.cc
+  src/graph.cc
+  src/heap.cc
+  src/orbit.cc
+  src/partition.cc
+  src/timer.cc
+  src/uintseqhash.cc
+  src/utils.cc
+)
 if(WIN32)
-  add_library(
-    libbliss
-    src/bliss_C.cc
-    src/defs.cc
-    src/graph.cc
-    src/heap.cc
-    src/orbit.cc
-    src/partition.cc
-    src/uintseqhash.cc
-    src/utils.cc
-  )
-else()
-  add_library(
-    libbliss
-    src/bliss_C.cc
-    src/defs.cc
-    src/graph.cc
-    src/heap.cc
-    src/orbit.cc
-    src/partition.cc
-    src/timer.cc
-    src/uintseqhash.cc
-    src/utils.cc
-  )
+  list(REMOVE_ITEM BLISS_SOURCE_FILES src/timer.cc)
 endif()
+
+add_library(libbliss ${BLISS_SOURCE_FILES})
 
 set_target_properties(libbliss PROPERTIES OUTPUT_NAME bliss)
 add_library(Bliss::libbliss ALIAS libbliss)
 
 target_include_directories(
-	libbliss
-	PUBLIC
-		$<INSTALL_INTERFACE:include>
-		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-	PRIVATE
-		${CMAKE_CURRENT_SOURCE_DIR}/src
+  libbliss
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 set_target_properties(libbliss PROPERTIES
-	# All code ending in a shared library should be made PIC
-	POSITION_INDEPENDENT_CODE ON
-	# Compiling with hidden visibility
-	CXX_VISIBILITY_PRESET hidden
-	VISIBILITY_INLINES_HIDDEN ON
+  # All code ending in a shared library should be made PIC
+  POSITION_INDEPENDENT_CODE ON
+  # Compiling with hidden visibility
+  CXX_VISIBILITY_PRESET hidden
+  VISIBILITY_INLINES_HIDDEN ON
 )
 
 add_executable(bliss src/bliss.cc)
@@ -85,8 +76,8 @@ target_link_libraries(bliss PRIVATE libbliss)
 
 
 install(
-	TARGETS libbliss bliss
-	EXPORT Bliss
+  TARGETS libbliss bliss
+  EXPORT Bliss
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -107,7 +98,7 @@ else()
 endif()
 
 install(EXPORT Bliss
-	DESTINATION lib/cmake/Bliss
+  DESTINATION lib/cmake/Bliss
   NAMESPACE Bliss::
   FILE BlissConfig.cmake
 )
