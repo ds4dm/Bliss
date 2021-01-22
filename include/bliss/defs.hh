@@ -28,7 +28,7 @@ namespace bliss {
 /**
  * The version number of bliss.
  */
-static const char * const version = "0.73.3";
+static const char * const version = "0.73.4";
 
 /*
  * If a fatal error (out of memory, internal error) is encountered,

@@ -21,7 +21,7 @@
 */
 
 #include <cstdlib>
-#include "bliss/defs.hh"
+#include <bliss/defs.hh>
 
 namespace bliss {
 

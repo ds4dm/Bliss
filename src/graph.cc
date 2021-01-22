@@ -749,6 +749,7 @@ AbstractGraph::search(const bool canonical, Stats& stats)
 
   std::vector<TreeNode> search_stack;
   // first_path_info moved to graph.hh by Thomas Rehn, 2011-07-12
+  std::vector<PathInfo> first_path_info;
   std::vector<PathInfo> best_path_info;
 
   search_stack.clear();
@@ -5461,7 +5462,7 @@ Graph::nucr_find_first_component(const unsigned int level,
   component.clear();
   component_elements = 0;
   sh_return = 0;
-  unsigned int sh_first  = 1 << 31;
+  unsigned int sh_first  = 0 << 31;
   unsigned int sh_size   = 0;
   unsigned int sh_nuconn = 0;
 

@@ -6,12 +6,12 @@
   #include <ciso646>
 #endif
 
-#include "bliss/defs.hh"
-#include "bliss/graph.hh"
+#include <bliss/defs.hh>
+#include <bliss/graph.hh>
 #ifndef _WIN32
-  #include "bliss/timer.hh"
+  #include <bliss/timer.hh>
 #endif
-#include "bliss/utils.hh"
+#include <bliss/utils.hh>
 
 /*
   Copyright (c) 2003-2015 Tommi Junttila
@@ -53,6 +53,25 @@ static unsigned int verbose_level = 1;
 static FILE* verbstr = stdout;
 
 
+//mkoeppe
+//#if !defined(BLISS_COMPILED_DATE)
+//#define BLISS_COMPILED_DATE "compiled " __DATE__
+//#endif
+//
+//static void
+//version(FILE* const fp)
+//{
+//  fprintf(fp,
+//"bliss version %s (" BLISS_COMPILED_DATE ")\n"
+//"Copyright (C) 2003-2015 Tommi Junttila.\n"
+//"\n"
+//"License LGPLv3+: GNU LGPL version 3 or later, <http://gnu.org/licenses/lgpl.html>.\n"
+//"This program comes with ABSOLUTELY NO WARRANTY. This is free software,\n"
+//"and you are welcome to redistribute it under certain conditions;\n"
+//"see COPYING and COPYING.LESSER for details.\n"
+//      , bliss::version
+//	  );
+//}
 
 static void
 usage(FILE* const fp, const char* argv0)
@@ -68,9 +87,9 @@ usage(FILE* const fp, const char* argv0)
   fprintf(fp, "bliss version %s (compiled %s)\n", bliss::version, __DATE__);
   fprintf(fp, "Copyright 2003-2015 Tommi Junttila\n");
   fprintf(fp,
-"\n"
-"Usage: %s [options] [<graph file>]\n"
-"\n"
+"Usage: %s [options] [<graphfile>]\n"
+"  Run bliss on <graphfile>.\n"
+"Options:\n"
 "  -directed   the input graph is directed\n"
 "  -can        compute canonical form\n"
 "  -ocan=f     compute canonical form and output it in file f\n"
@@ -89,6 +108,7 @@ usage(FILE* const fp, const char* argv0)
 "  -cr=X       use component recursion? [X=y/n, default: y]\n"
 "  -version    print the version number and exit\n"
 "  -help       print this help and exit\n"
+"\n"
           ,program_name
 	  );
 }
@@ -126,7 +146,9 @@ parse_options(const int argc, const char** argv)
 	}
       else if(strcmp(argv[i], "-version") == 0)
 	{
-	  fprintf(stdout, "bliss version %s\n", bliss::version);
+    fprintf(stdout, "bliss version %s\n", bliss::version);
+    //mkoeppe
+	  //version(stdout);
 	  exit(0);
 	}
       else if(strcmp(argv[i], "-help") == 0)
@@ -190,7 +212,7 @@ int
 main(const int argc, const char** argv)
 {
 #ifndef _WIN32
-  bliss::Timer timer;
+   bliss::Timer timer;
 #endif
   bliss::AbstractGraph* g = 0;
 
@@ -320,6 +342,7 @@ main(const int argc, const char** argv)
       fflush(verbstr);
     }
 #endif
+
 
   delete g; g = 0;
 

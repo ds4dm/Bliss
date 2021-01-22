@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#include "bliss/graph.hh"
+#include <bliss/graph.hh>
 extern "C" {
-#include "bliss/bliss_C.h"
+#include <bliss/bliss_C.h>
 }
 
 /*

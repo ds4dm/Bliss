@@ -34,13 +34,13 @@ namespace bliss {
 
 #include <cstdio>
 #include <vector>
-#include "bliss/kstack.hh"
-#include "bliss/kqueue.hh"
-#include "bliss/heap.hh"
-#include "bliss/orbit.hh"
-#include "bliss/partition.hh"
-#include "bliss/bignum.hh"
-#include "bliss/uintseqhash.hh"
+#include <bliss/kstack.hh>
+#include <bliss/kqueue.hh>
+#include <bliss/heap.hh>
+#include <bliss/orbit.hh>
+#include <bliss/partition.hh>
+#include <bliss/bignum.hh>
+#include <bliss/uintseqhash.hh>
 
 namespace bliss {
 
