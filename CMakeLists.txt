@@ -1,21 +1,45 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 
 if(${CMAKE_VERSION} VERSION_LESS "3.12")
   project(
     Bliss
-    VERSION 0.73.3
+    VERSION 0.77
     LANGUAGES CXX C
     DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs. http://www.tcs.hut.fi/Software/bliss/."
   )
 else()
   project(
     Bliss
-    VERSION 0.73.3
+    VERSION 0.77
     LANGUAGES CXX C
     DESCRIPTION "A Tool for Computing Automorphism Groups and Canonical Labelings of Graphs"
     HOMEPAGE_URL "http://www.tcs.hut.fi/Software/bliss/"
   )
 endif()
+
+option(USE_GMP "Use GNU Multiple Precision Arithmetic library" OFF)
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+if (MSVC)
+    # /permissive- for standard C++ with "and" and "or" logical operators
+    add_compile_options(/permissive-)
+else()
+    # Warnings, optimization, no assertions
+    add_compile_options(-Wall -pedantic -O3 -DNDEBUG) #-Wextra -Werror
+endif()
+
+if(USE_GMP)
+  find_path(GMP_INCLUDE_DIR NAMES gmp.h)
+  find_library(GMP_LIBRARIES NAMES gmp libgmp mpir REQUIRED)
+  if (MSVC)
+    add_compile_options(/DBLISS_USE_GMP /I${GMP_INCLUDE_DIR})
+  else()
+    add_compile_options(-DBLISS_USE_GMP -I${GMP_INCLUDE_DIR})
+  endif()
+endif(USE_GMP)
 
 # Set the default build type to the given value if no build type was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -34,22 +58,26 @@ endif()
 
 set(
   BLISS_SOURCE_FILES
+  src/abstractgraph.cc
   src/bliss_C.cc
   src/defs.cc
+  src/digraph.cc
   src/graph.cc
-  src/heap.cc
   src/orbit.cc
   src/partition.cc
-  src/timer.cc
   src/uintseqhash.cc
   src/utils.cc
 )
-if(WIN32)
-  list(REMOVE_ITEM BLISS_SOURCE_FILES src/timer.cc)
-endif()
 
+# In MSVC, the executable and libraries should go to the top directory
+if(MSVC)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR})
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR})
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR})
+endif(MSVC)
+
+# Add the shared library
 add_library(libbliss ${BLISS_SOURCE_FILES})
-
 set_target_properties(libbliss PROPERTIES OUTPUT_NAME bliss)
 add_library(Bliss::libbliss ALIAS libbliss)
 
@@ -70,35 +98,14 @@ set_target_properties(libbliss PROPERTIES
   VISIBILITY_INLINES_HIDDEN ON
 )
 
-add_executable(bliss src/bliss.cc)
-add_executable(Bliss::bliss ALIAS bliss)
-target_link_libraries(bliss PRIVATE libbliss)
 
+# Add the static library
+add_library(bliss_static STATIC ${BLISS_SOURCE_FILES})
 
-install(
-  TARGETS libbliss bliss
-  EXPORT Bliss
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-)
-
-if(${CMAKE_VERSION} VERSION_LESS "3.14")
-  install(
-    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/bliss"
-    DESTINATION include
-    COMPONENT lib
-  )
-else()
-  install(
-    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/bliss"
-    TYPE INCLUDE
-    COMPONENT lib
-  )
-endif()
-
-install(EXPORT Bliss
-  DESTINATION lib/cmake/Bliss
-  NAMESPACE Bliss::
-  FILE BlissConfig.cmake
-)
+# Add the executable
+add_executable(bliss-executable src/bliss.cc)
+target_link_libraries(bliss-executable bliss_static)
+if(USE_GMP)
+  target_link_libraries(bliss-executable ${GMP_LIBRARIES})
+endif(USE_GMP)
+set_target_properties(bliss-executable PROPERTIES OUTPUT_NAME bliss)

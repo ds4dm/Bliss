@@ -26,11 +26,11 @@
 #include <cassert>
 #include <climits>
 
-#include "defs.hh"
-#include "timer.hh"
-#include "abstractgraph.hh"
-#include "partition.hh"
-#include "utils.hh"
+#include "bliss/defs.hh"
+#include "bliss/timer.hh"
+#include "bliss/abstractgraph.hh"
+#include "bliss/partition.hh"
+#include "bliss/utils.hh"
 
 namespace bliss {
 
