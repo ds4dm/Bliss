@@ -60,9 +60,9 @@ void Heap::downheap(unsigned int index)
     {
       unsigned int new_index = index + index;
       if((new_index < n) and (array[new_index] > array[new_index+1]))
-	new_index++;
+        new_index++;
       if(v <= array[new_index])
-	break;
+        break;
       array[index] = array[new_index];
       index = new_index;
     }
@@ -74,7 +74,7 @@ void Heap::init(const unsigned int size)
   if(size > N)
     {
       if(array)
-	free(array);
+        free(array);
       array = (unsigned int*)malloc((size + 1) * sizeof(unsigned int));
       N = size;
     }
