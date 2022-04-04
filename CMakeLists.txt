@@ -85,7 +85,7 @@ target_include_directories(
   libbliss
   PUBLIC
     $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
@@ -101,6 +101,15 @@ set_target_properties(libbliss PROPERTIES
 
 # Add the static library
 add_library(bliss_static STATIC ${BLISS_SOURCE_FILES})
+target_include_directories(
+  bliss_static
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
 
 # Add the executable
 add_executable(bliss-executable src/bliss.cc)
