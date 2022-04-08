@@ -78,6 +78,7 @@ endif(MSVC)
 
 # Add the shared library
 add_library(libbliss ${BLISS_SOURCE_FILES})
+
 set_target_properties(libbliss PROPERTIES OUTPUT_NAME bliss)
 add_library(Bliss::libbliss ALIAS libbliss)
 
@@ -98,23 +99,38 @@ set_target_properties(libbliss PROPERTIES
   VISIBILITY_INLINES_HIDDEN ON
 )
 
+add_executable(bliss src/bliss.cc)
+add_executable(Bliss::bliss ALIAS bliss)
+target_link_libraries(bliss PRIVATE libbliss)
+if(USE_GMP)
+  target_link_libraries(bliss ${GMP_LIBRARIES})
+endif(USE_GMP)
 
-# Add the static library
-add_library(bliss_static STATIC ${BLISS_SOURCE_FILES})
-target_include_directories(
-  bliss_static
-  PUBLIC
-    $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
+
+install(
+  TARGETS libbliss bliss
+  EXPORT Bliss
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
 )
 
+if(${CMAKE_VERSION} VERSION_LESS "3.14")
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/bliss"
+    DESTINATION include
+    COMPONENT lib
+  )
+else()
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/bliss"
+    TYPE INCLUDE
+    COMPONENT lib
+  )
+endif()
 
-# Add the executable
-add_executable(bliss-executable src/bliss.cc)
-target_link_libraries(bliss-executable bliss_static)
-if(USE_GMP)
-  target_link_libraries(bliss-executable ${GMP_LIBRARIES})
-endif(USE_GMP)
-set_target_properties(bliss-executable PROPERTIES OUTPUT_NAME bliss)
+install(EXPORT Bliss
+  DESTINATION lib/cmake/Bliss
+  NAMESPACE Bliss::
+  FILE BlissConfig.cmake
+)
