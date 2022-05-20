@@ -171,7 +171,9 @@ Graph::read_dimacs(FILE* const fp, FILE* const errstr)
   int c;
 
   const bool verbose = false;
-  FILE* const verbstr = stdout;
+  FILE* verbstr;
+  if(verbose)
+      verbstr = stdout;
 
   /* Read comments and the problem definition line */
   while(1)
