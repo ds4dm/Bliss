@@ -14,30 +14,30 @@ Compiling
 In Linux and macOS, one can use GNU Make to compile the "bliss" executable,
 as well as the static and shared libraries, with
 
-make -f Makefile-manual
+    make -f Makefile-manual
 
 If you are embedding bliss in a project that needs the automorphism group sizes
 as GNU Multiple Precision Arithmetic Library integers,
 compile with
 
-make -f Makefile-manual gmp
+    make -f Makefile-manual gmp
 
 
 On Linux and macOS with CMake installed, one can also use
 
-cmake .
-cmake --build .
+    cmake .
+    cmake --build .
 
 To enable GNU GMP support, compile with
 
-cmake -D USE_GMP=ON .
-cmake --build .
+    cmake -D USE_GMP=ON .
+    cmake --build .
 
 
 On Windows with Visual Studio and CMake, use
 
-cmake .
-cmake --build . --config Release
+    cmake .
+    cmake --build . --config Release
 
 
 Examples
