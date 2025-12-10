@@ -4,9 +4,9 @@ Bliss
 bliss is an open-source tool for computing
 canonical labelings and automorphism groups of graphs.
 
-This is a github copy of the original software,
-for more information about bliss, please see the bliss homepage at
-https://users.aalto.fi/tjunttil/bliss
+This is a fork of the original software, available at
+https://users.aalto.fi/tjunttil/bliss (or https://github.com/digraphs/bliss for an older version).
+It contains some fixes useful when building bliss for SCIP.
 
 Compiling
 ---------
