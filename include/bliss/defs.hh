@@ -21,6 +21,9 @@
 
 #include <cassert>
 #include <cstdarg>
+#if defined(__cplusplus) && (__cplusplus <= 202002L)
+#include <ciso646>
+#endif
 
 /** \file
  * \brief Some common definitions.
