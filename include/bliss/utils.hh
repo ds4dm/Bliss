@@ -26,6 +26,9 @@
 
 #include <vector>
 #include <cstdio>
+#if defined(__cplusplus) && (__cplusplus <= 202002L)
+#include <ciso646>
+#endif
 
 namespace bliss {
 
