@@ -8,12 +8,11 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.os }} - ${{ matrix.arch }} - ${{ matrix.buildtype }} - ${{ github.event_name }}
-    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.runner }} - ${{ matrix.buildtype }} - ${{ github.event_name }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        arch: [x64, aarch64]
+        runner: [ubuntu-latest, ubuntu-24.04-arm, macos-15-intel, macos-latest, windows-latest, windows-11-arm]
         buildtype: [debug, release]
     steps:
       - uses: actions/checkout@v2
@@ -27,7 +26,6 @@ jobs:
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
-        shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
            cmake --build . --config ${{matrix.buildtype}}
