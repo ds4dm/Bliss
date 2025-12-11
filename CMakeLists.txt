@@ -59,8 +59,9 @@ set_target_properties(libbliss PROPERTIES
   # All code ending in a shared library should be made PIC
   POSITION_INDEPENDENT_CODE ON
   # Compiling with hidden visibility
-  CXX_VISIBILITY_PRESET hidden
-  VISIBILITY_INLINES_HIDDEN ON
+  # We cannot do this currently, because the code does not ensure that the API is made visible / exported
+  #CXX_VISIBILITY_PRESET hidden
+  #VISIBILITY_INLINES_HIDDEN ON
 )
 
 add_executable(bliss src/bliss.cc)
