@@ -62,6 +62,8 @@ set_target_properties(libbliss PROPERTIES
   # We cannot do this currently, because the code does not ensure that the API is made visible / exported
   #CXX_VISIBILITY_PRESET hidden
   #VISIBILITY_INLINES_HIDDEN ON
+  # But for Windows, we can ensure that all symbols are exported, which is anyway necessary when building a DLL
+  WINDOWS_EXPORT_ALL_SYMBOLS 1
 )
 
 add_executable(bliss src/bliss.cc)

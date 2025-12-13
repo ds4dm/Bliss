@@ -8,12 +8,13 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.runner }} - ${{ matrix.buildtype }} - ${{ github.event_name }}
+    name: ${{ matrix.runner }} - ${{ matrix.buildtype }} - shared${{ matrix.sharedlib }} - ${{ github.event_name }}
     runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
         runner: [ubuntu-latest, ubuntu-24.04-arm, macos-15-intel, macos-latest, windows-latest, windows-11-arm]
         buildtype: [debug, release]
+        sharedlib: [on, off]
     steps:
       - uses: actions/checkout@v2
       - name: Create Build Environment
@@ -22,7 +23,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: ${{runner.workspace}}/build
-        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.buildtype}}
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.buildtype}} -DBUILD_SHARED_LIBS=${{matrix.sharedlib}}
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
